@@ -7,36 +7,45 @@ from __future__ import unicode_literals
 
 import simplejson as json
 import tweepy
-import time
 
 class FilteredStreamListener(tweepy.StreamListener):
     """
     FilteredStreamListener gather only some informations of each tweet
     """
-    def __init__(self):
+    def __init__(self, fstream):
         """
         Construct a new 'FilteredStreamListener' object
         :return: returns nothing
         """
         tweepy.StreamListener.__init__(self)
         self.tweets = {"tweets":[]}
+        self.fstream = fstream
 
     def on_status(self, status):
         """
-        Tweets handling : select only some informations to keep
+        Tweets handling : select only some informations to keep and call
+            FilteredStream.action() if enough tweets have been gathered
 
         :param status: a tweet
         :return: returns nothing
         """
-        hashtags = []
-        for h in status.entities["hashtags"]:
-            hashtags += [h["text"]]
+        if status.lang in self.fstream.criterias["lang"] or status.lang == "und" or self.fstream.criterias["lang"][0] == "*":
+            hashtags = []
+            for h in status.entities["hashtags"]:
+                hashtags += [h["text"]]
 
-        self.tweets["tweets"] += [{ "text": status.text,
-                                    "hashtags": hashtags,
-                                    "date": status.created_at,
-                                    "fav": status.favorite_count,
-                                    "rt": status.retweet_count}]
+            self.tweets["tweets"] += [{ "text": status.text,
+                                        "hashtags": hashtags,
+                                        "date": str(status.created_at),
+                                        "fav": status.favorite_count,
+                                        "rt": status.retweet_count}]
+
+            if(len(self.tweets["tweets"]) >= self.fstream.tweets_number):
+                tweets = []
+                for i in range(0, self.fstream.tweets_number):
+                    tweets += [self.tweets["tweets"].pop(0)]
+
+                self.fstream.action(tweets)
 
     def on_error(self, status_code):
         """
@@ -48,27 +57,23 @@ class FilteredStreamListener(tweepy.StreamListener):
         if status_code == 420:
             return False
 
-    def new_tweets(self):
-        """
-        Accessor on the Listener's tweets list
-
-        :return: returns the list of new tweets since its last call
-        """
-        tweets = self.tweets["tweets"]
-        self.tweets["tweets"] = []
-        return tweets
-
 class FilteredStream():
     """
     FilteredStream is a Twitter Stream filtered on multiple criterias
     """
 
-    def __init__(self, criterias, config_filepath="../config.json"):
+    def __init__(self, criterias, tweets_number=10, config_filepath="../config.json"):
         """
         Construct a new 'FilteredStream' object
 
-        :param criterias: dictionary containing keywords ("track") and/or location boundaries ("locations"), used to filter the search
-        :param config_filepath: path to the JSON file containing the Twitter App's authentication informations
+        :param criterias: dictionary containing keywords ("track"), location
+            boundaries ("locations") and/or languages ("lang", using BCP 47
+            language codes, or "*" to match any language), used to filter the
+            search
+        :param tweets_number: number of tweets between two calls to action()
+            (default = 10 tweets)
+        :param config_filepath: path to the JSON file containing the Twitter
+            App's authentication informations
         :return: returns nothing
         """
         with open(config_filepath, 'r') as f:
@@ -79,9 +84,11 @@ class FilteredStream():
 
         self.api = tweepy.API(self.auth)
 
-        self.streamListener = FilteredStreamListener()
+        self.streamListener = FilteredStreamListener(self)
         self.liveStream = tweepy.Stream(auth = self.api.auth, listener=self.streamListener)
+
         self.criterias = criterias
+        self.tweets_number = tweets_number
 
         self.tweets = []
 
@@ -94,26 +101,34 @@ class FilteredStream():
         """
         print("-> " + tweets_list["text"])
 
-    def stream(self, tweets_amount=10, interval=5):
+    def stream(self):
         """
         Start the Filtered Twitter Stream, and perform an action each X tweets
-
-        :param tweets_amount: number of tweets between two calls to action() (default = 10 tweets)
-        :param interval: number of seconds between two recuperations of tweets (default = 5 seconds)
 
         :return: returns nothing (in fact, loops indefinitely)
         """
 
         self.liveStream.filter(track=self.criterias["track"], locations=self.criterias["locations"], async=True)
 
-        while(True):
-            while(len(self.tweets) < tweets_amount):
-                time.sleep(interval)
-                self.tweets += self.streamListener.new_tweets()
-                print(len(self.tweets))
+    def to_json(self, tweets):
+        """
+        Format tweets as JSON
 
-            tweets = []
-            for i in range(0, tweets_amount):
-                tweets += [self.tweets.pop(0)]
+        :param tweets: dictionary of tweets to format
+        :return: returns the formatted tweets
+        """
+        # return json.dumps({"tweets": tweets}, sort_keys=True, indent=4 * ' ')
+        return json.dumps({"tweets": tweets}, sort_keys=True)
 
-            self.action(tweets)
+    def export(self, filepath, tweets):
+        """
+        Prints tweets as JSON into a file (overwrite it)
+
+        :param filepath: path to the output file
+        :param tweets: dictionary of tweets to print as JSON
+        :return: returns nothing
+        """
+        with open(filepath, 'w') as f:
+            f.write(self.to_json(tweets))
+
+        print(str(len(tweets)) + " tweets successfully exported to " + filepath)
