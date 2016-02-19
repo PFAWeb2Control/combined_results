@@ -18,12 +18,12 @@ np.set_printoptions(formatter={'float': '{: 0.2f}'.format})
 class MyFilteredStream(FilteredStream):
     def __init__(self):
 
-        # Tweets from Bordeaux OR mentioning 'Paris'
         self.criterias = {
             "track": ['remaniement', 'Paris'],
-            "locations": [-0.6389644,44.8111222,-0.5334955,44.9163535] 
+            "locations": [-0.6389644,44.8111222,-0.5334955,44.9163535],
+            "lang": [*]
         }
-        FilteredStream.__init__(self, self.criterias, "config.json")
+        FilteredStream.__init__(self, self.criterias, 10, "config.json")
 
     def action(self, tweets_list):
         corpus = []
@@ -31,24 +31,24 @@ class MyFilteredStream(FilteredStream):
             corpus += [t["text"]]
 
         print(corpus)
-            
+
         vectorizer = CountVectorizer()
         X = vectorizer.fit_transform(corpus)
         M,P=X.shape
-        
+
         print("taille du corpus : ",M)
         print("taille du vocabulaire : ",P)
         print("Mon vocabulaire")
         print(vectorizer.vocabulary_)
         print("Mes vecteurs")
         print (X.toarray())
-        
+
         #On peut calculer la distance euclidienne entre ces différents messages
 
         print("La distance euclidienne entre les diffents messages:")
         dist_corpus=euclidean_distances(X)
         print(dist_corpus)
-        
+
         #on peut calculer la distance d'un nouveau message à ce  corpus
         print("distance dun nouveau message non evenement a ce corpus")
         msg="Luc Fortin fait son entrée au Cabinet des ministres. Il s’occupera du Loisir et du Sport"
@@ -85,7 +85,6 @@ class MyFilteredStream(FilteredStream):
         print("Résultats des l'algorithme Mean Shift")
         ms_algo(X.toarray(), None)
         quit()
-        
-stream = MyFilteredStream()
-stream.stream(10, 4)
 
+stream = MyFilteredStream()
+stream.stream()
