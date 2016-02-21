@@ -2,6 +2,8 @@
 
 from sk_vectorize import vectorize
 from k_means import clusterize
+#uncomment this line and comment the above to change ML algorithm
+#from meanshift import clusterize
 from tweepy_import import FilteredStream
 
 
