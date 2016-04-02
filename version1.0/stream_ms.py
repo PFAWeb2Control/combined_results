@@ -43,14 +43,13 @@ class MyFilteredStream(FilteredStream):
         print(vectorizer.vocabulary_)
         print("Mes vecteurs")
         print (X.toarray())
-        
+        """
         """
         #We can calculate the euclidian distance between the different messages
         print("La distance euclidienne entre les diffents messages:")
         dist_corpus=euclidean_distances(X)
         print(dist_corpus)
         """
-
         #Suppression of french stopwords
         stwf=stopwords.words('french')
         stwf.append('les')
