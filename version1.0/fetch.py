@@ -12,7 +12,7 @@ class MyFilteredStream(FilteredStream):
 
     def __init__(self):
 
-		# Search criterias
+	# Search criterias
         self.criterias = {
             "track": ["Paris", "Bordeaux"],
             "locations": [-0.6389644,44.8111222,-0.5334955,44.9163535],
