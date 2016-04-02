@@ -18,11 +18,11 @@ M,P=X.shape
 """
 #de-coment this section for further informations about the corpus, vocabulary and the vectors
 
-print("taille du corpus : ",M)
-print("taille du vocabulaire : ",P)
-print("Mon vocabulaire")
+print("The size of the corpus: ",M)
+print("The size of the vocabulary : ",P)
+print("My vocabulary")
 print(vectorizer.vocabulary_)
-print("Mes vecteurs")
+print("My vectors")
 print (X.toarray())
 """
 #remove the french stopwords 
