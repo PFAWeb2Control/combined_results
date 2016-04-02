@@ -26,7 +26,7 @@ def ms_algo(X, bandwidth=None):
     n_clusters_ = len(labels_unique) #Number of clusters
 
     # Print section
-    print("Nombre de regroupement(s): %d" % n_clusters_)
+    print("The number of clusters is: %d" % n_clusters_)
 
     print("Centre(s):")
     for i in range(n_clusters_):

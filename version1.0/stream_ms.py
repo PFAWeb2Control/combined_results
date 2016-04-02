@@ -38,16 +38,16 @@ class MyFilteredStream(FilteredStream):
         M,P=X.shape
         """
         #De-comment this section for further informations about the corpus, and the dictionnary
-        print("taille du corpus : ",M)
-        print("taille du vocabulaire : ",P)
-        print("Mon vocabulaire")
+        print("The size of the corpus: ",M)
+        print("The size of the vocabulary: ",P)
+        print("My vocabulary")
         print(vectorizer.vocabulary_)
-        print("Mes vecteurs")
+        print("My vectors")
         print (X.toarray())
         """
         """
         #We can calculate the euclidian distance between the different messages
-        print("La distance euclidienne entre les diffents messages:")
+        print("The euclidean distance between the different messages:")
         dist_corpus=euclidean_distances(X)
         print(dist_corpus)
         """
@@ -61,17 +61,17 @@ class MyFilteredStream(FilteredStream):
         
         """
         #De-coment this section for further information about the dictionnar, the new array and the euclidian distance. 
-        print("taille du vocabulaire apres suppression des stop_words : ",Ns)
-        print("mon nouveau dictionnaire")
+        print("The size of the vocabulary after the suppression of the stopwords : ",Ns)
+        print("My new dictionnary")
         print(dico)
-        print("Mes nouveaux vecteurs")
+        print("My new vectors")
         print(X.toarray())
         dist_corpus=euclidean_distances(X)
-        print("ma nouvelle matrice de distance")
+        print("My new matrix of distance")
         print(dist_corpus)
         """
         #Apply the mean_shift algorithm on our new X after the suppression of the stopwords
-        print("Résultats des l'algorithme Mean Shift")
+        print("The results of the Mean Shift algorithm \n")
         ms_algo(X.toarray(), None)
         quit()
 #Call the method define previously with the meanshift algorithm with the current stream of tweets
