@@ -26,4 +26,4 @@ if __name__ == '__main__':
 
 
 	msg=("une phrase ", "un deuxieme phrase")
-	print vectorize_(msg).toarray()	
+	#print vectorize_(msg).toarray()	
