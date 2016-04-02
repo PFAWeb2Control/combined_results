@@ -32,5 +32,5 @@ def ms_algo(X, bandwidth=None):
     for i in range(n_clusters_):
         print i,
         print cluster_centers[i]
-    #return the clusters's centers
+
     return cluster_centers    
