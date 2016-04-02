@@ -1,4 +1,6 @@
 # coding: utf-8
+
+#A set of sentences incorporating the corpse of our data.
 corpus=['Paris capitale de la terre','Paris capitale de la terre','Paris capitale de la terre','Paris capitale de la terre','Paris capitale de la terre','Paris capitale de la terre','Paris capitale de la terre','Paris capitale de la terre','Paris capitale de la terre','Paris capitale de la terre','Paris capitale de la terre','Paris capitale de la terre','Paris capitale de la terre','Paris capitale de la terre','Paris capitale de la terre','Paris capitale de la terre','Paris capitale de la terre','Paris capitale de la terre','Paris capitale de la terre','Paris capitale de la terre','Paris capitale de la terre','Paris capitale de la terre','Paris capitale de la terre','Paris capitale de la terre','Paris capitale de la terre','Paris capitale de la terre','Paris capitale de la terre','Paris capitale de la terre','Paris capitale de la terre','Paris capitale de la terre','Paris capitale de la terre','Paris capitale de la terre','Paris capitale de la terre','Paris capitale de la terre','Paris capitale de la terre','Paris capitale de la terre','Paris capitale de la terre','Le vin de Bordeaux','Le vin de Bordeaux','Le vin de Bordeaux','Le vin de Bordeaux','Le vin de Bordeaux','Le vin de Bordeaux','Le vin de Bordeaux','Le vin de Bordeaux','Le vin de Bordeaux','Le vin de Bordeaux','Le vin de Bordeaux','Le vin de Bordeaux','Le vin de Bordeaux','Le vin de Bordeaux','Le vin de Bordeaux','Le vin de Bordeaux','Le vin de Bordeaux','Le vin de Bordeaux','Le vin de Bordeaux','Le vin de Bordeaux','Le vin de Bordeaux','Le vin de Bordeaux','Le vin de Bordeaux','Le vin de Bordeaux','Le vin de Bordeaux', 'jaime pas le vin','jaime pas le vin','jaime pas le vin','jaime pas le vin','jaime pas le vin','jaime pas le vin','jaime pas le vin','jaime pas le vin','jaime pas le vin','jaime pas le vin','jaime pas le vin','jaime pas le vin','jaime pas le vin','jaime pas le vin','jaime pas le vin','jaime pas le vin','jaime pas le vin','jaime pas le vin','jaime pas le vin','jaime pas le vin','jaime pas le vin','jaime pas le vin','jaime pas le vin', 'jaime pas le vin', 'jaime pas le vin', 'jm toutes les capitale', 'jm toutes les capitale', 'jm toutes les capitale', 'jm toutes les capitale', 'jm toutes les capitale', 'jm toutes les capitale', 'jm toutes les capitale', 'jm toutes les capitale', 'jm toutes les capitale', 'jm toutes les capitale', 'jm toutes les capitale', 'jm toutes les capitale', 'jm toutes les capitale', 'jm toutes les capitale', 'jm toutes les capitale', 'jm toutes les capitale', 'jm toutes les capitale', 'jm toutes les capitale', 'jm toutes les capitale', 'jm toutes les capitale', 'j toutes les capitale', 'jm toutes les capitale', 'jm toutes les capitale', 'jm toutes les capitale', 'jm toutes les capitale', 'jm toutes les capitale', 'jm toutes les capitale', 'jm toutes les capitale', 'jm toutes les capitale', 'jm toutes les capitale', 'jm toutes les capitale', 'jm toutes les capitale', 'jm toutes les capitale', 'jm toutes les capitale', 'jm toutes les capitale' ]
 
 import numpy as np
@@ -8,6 +10,7 @@ import nltk
 from nltk.corpus import stopwords
 
 np.set_printoptions(formatter={'float': '{: 0.2f}'.format})
+
 #Apply the vectorization on the corpus.
 vectorizer = CountVectorizer()
 X = vectorizer.fit_transform(corpus)
@@ -30,10 +33,10 @@ X = vectorizer.fit_transform(corpus)
 dico=vectorizer.vocabulary_
 Ns=len(dico)
 
-print("taille du vocabulaire apres suppression des stop_words : ",Ns)
-print("mon nouveau dictionnaire")
+print("The size of our vocabulary after the suppression of the french stopwords: ",Ns)
+print("My new dictionnary:")
 print(dico)
-print("Mes nouveaux vecteurs")
+print("My new vectors:")
 print(X.toarray())
 
 #apply the meanshift algorithm
