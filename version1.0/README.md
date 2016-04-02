@@ -1,4 +1,6 @@
 
+###vesrion1.0
+This repository contains the gathering of the retrieving of a streaming of tweets, their vectorization and the final step of clustering using MeanShift and Birch 
 
 ###tweepy_import.py
 
