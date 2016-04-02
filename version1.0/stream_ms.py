@@ -29,7 +29,8 @@ class MyFilteredStream(FilteredStream):
         corpus = []
         for t in tweets_list:
             corpus += [t["text"]]
-
+            
+        self.export('test.json',tweets_list)
         print(corpus)
 
         vectorizer = CountVectorizer()
