@@ -1,4 +1,4 @@
-# K-means clustering with 
+# K-means clustering with tweeter input
 
 Here, a limited number of tweets are retrieved through tweepy API, then vectorized and clusterized 
 with the K-means algorithm
